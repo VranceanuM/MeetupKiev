@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as firebase from 'firebase'
 
 Vue.use(Vuex)
 
@@ -17,13 +18,63 @@ export const store = new Vuex.Store({
             date:'22.07.17'
             }
         ],
-        user: {
-            id:'apoeproosss',
-            registeredMeetups:['sadsacaxzczcsadsad']
+        user: null
+    },
+    mutations:{
+        createMeetup (state, payload){
+            state.loadedMeetups.push(payload)
+        },
+        setUser (state, payload){
+            state.user = payload
         }
     },
-    mutations:{},
-    actions:{},
+    actions:{
+        createMeetup({commit},payload){
+        const meetup ={
+           title:payload.title,
+           location:payload.location,
+           imageUrl:payload.imageUrl,
+           description:payload.description,
+           date:payload.date,
+           id:'asdsadasc'
+        }
+        commit('createMeetup', meetup)
+     },
+       signUserUp ({commit}, payload){
+           firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+             .then(
+                 user => {
+                     const newUser = {
+                         id:user.uid,
+                         registeredMeetups:[]
+                     }
+                     commit('setUser', newUser)
+                 }
+             )
+             .catch(
+                 error => {
+                     console.log(error)
+                 }
+             )
+        },
+        signUserIn ({commit}, payload){
+            firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+             .then(
+                user => {
+                    const newUser = {
+                        id:user.uid,
+                        registeredMeetups:[]
+                    }
+                    commit('setUser', newUser)
+                }
+             )
+             .catch(
+                error => {
+                    console.log(error)
+                }
+            )
+        }
+    },
     getters:{
         loadedMeetups (state) {
             return state.loadedMeetups.sort((meetupA , meetupB) => {
@@ -39,6 +90,9 @@ export const store = new Vuex.Store({
                     return meetup.id === meetupId
                 })
             }
+        },
+        user (state) {
+            return state.user
         }
     }
 })

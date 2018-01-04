@@ -1,18 +1,18 @@
 <template>
 <v-container>
-    <v-layout row wrap>
+    <v-layout row wrap class="mb-3">
         <v-flex xs12>
            <v-card>
                <v-card-title>
-                  <h2 class="info--text">My Meetup</h2>
+                  <h2 class="info--text">{{meetup.title}}</h2>
                </v-card-title>
                <v-card-media
-                    src="http://destinations.com.ua/images/Articles2016/August2016/Kiev_must_see_places/shutterstock_351603791.jpg"
+                    :src="meetup.imageUrl"
                     height="400px"
                 >
                 </v-card-media>
                 <v-card-text>
-                    <div class="info--text">17 Jul 2017-Where it takes places!</div>
+                    <div class="info--text">{{meetup.date}}-Where it takes places!</div>
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur, at. Molestias, aliquam explicabo. Minus enim corrupti exercitationem! Ea provident soluta sed, magnam nulla ut laboriosam ipsam. Optio amet dicta consequuntur!
                 </v-card-text> 
                 <v-card-actions>
@@ -25,3 +25,14 @@
     </v-layout>
 </v-container>
 </template>
+<script>
+    export default {
+        props:['id'],
+        computed:
+         {
+           meetup() {
+               return this.$store.getters.loadedMeetup(this.id)
+               }
+        }
+    }
+</script>
