@@ -1,19 +1,19 @@
 <template>
 <v-app>
   <v-toolbar dark class="info">
-    <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-     <v-toolbar-title> 
+    <v-toolbar-side-icon @click="drawer =!drawer"></v-toolbar-side-icon>
+     <v-toolbar-title>
        <router-link to="/" tag="span" style="cursor:pointer">Kiev Meetup</router-link>
       </v-toolbar-title>
      <v-spacer></v-spacer>
      <v-toolbar-items  class="hidden-xs-only">
           <v-btn flat
-           v-for='item in menuItems' 
+           v-for='item in menuItems'
           :key="item.title"
-          router  
+          router
           :to='item.link'>
           <v-icon>{{item.icon}}</v-icon>
-          {{item.title}} 
+          {{item.title}}
           </v-btn>
      </v-toolbar-items>
   </v-toolbar>
@@ -26,10 +26,10 @@
     absolute
     >
       <v-list>
-        <v-list-tile 
-        v-for='item in menuItems' 
+        <v-list-tile
+        v-for='item in menuItems'
         :key="item.title"
-        router  
+        router
         :to='item.link'
         >
           <v-list-tile-action>

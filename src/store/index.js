@@ -7,13 +7,13 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state:{
         loadedMeetups:[
-            { imageUrl: 'http://destinations.com.ua/images/Articles2016/August2016/Kiev_must_see_places/shutterstock_351603791.jpg' 
-            , id:'asdfg', 
+            { imageUrl: 'http://destinations.com.ua/images/Articles2016/August2016/Kiev_must_see_places/shutterstock_351603791.jpg'
+            , id:'asdfg',
             title:'Gold Church',
             date:'16.07.17'
            },
-            { imageUrl: 'https://kovla.com/blog/wp-content/uploads/2016/05/0_9707e_636c54cf_XL-1.jpg' , 
-            id:'assdf', 
+            { imageUrl: 'https://kovla.com/blog/wp-content/uploads/2016/05/0_9707e_636c54cf_XL-1.jpg' ,
+            id:'assdf',
             title:'Joging Place on river',
             date:'22.07.17'
             }
@@ -35,10 +35,17 @@ export const store = new Vuex.Store({
            location:payload.location,
            imageUrl:payload.imageUrl,
            description:payload.description,
-           date:payload.date,
-           id:'asdsadasc'
+           date:payload.date
         }
-        commit('createMeetup', meetup)
+        firebase.database().ref('meetups').push(meetup)
+          .then((data) => {
+            console.log(data)
+            commit('createMeetup', meetup)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+
      },
        signUserUp ({commit}, payload){
            firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
